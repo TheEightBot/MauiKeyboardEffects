@@ -35,6 +35,6 @@ jobs:
     - name: Create the package
       run: dotnet pack --configuration Release /p:AssemblyVersion=${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }} /p:Version=${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }} MauiKeyboardEffects/MauiKeyboardEffects.csproj
     - name: Publish the package to NuGet
-      run: dotnet nuget push MauiKeyboardEffects/bin/Release/*.nupkg -k $NUGET_AUTH_TOKEN -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push MauiKeyboardEffects/bin/Release/*.nupkg --api-key "${{ secrets.NUGET_APIKEY }}" --source https://api.nuget.org/v3/index.json
       env:
           NUGET_AUTH_TOKEN: ${{ secrets.NUGET_TOKEN }}
