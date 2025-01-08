@@ -1,6 +1,3 @@
 namespace MauiKeyboardEffects;
 
-public class NumericKeyboardRoutingEffect
-{
-    
-}
+public class NumericKeyboardRoutingEffect : RoutingEffect;

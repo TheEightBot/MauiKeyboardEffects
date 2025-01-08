@@ -1,6 +1,9 @@
 namespace MauiKeyboardEffects;
 
-public class AdditionalButtonIndex
+public enum AdditionalButtonIndex
 {
-    
+    One,
+    Two,
+    Three,
+    Four,
 }
