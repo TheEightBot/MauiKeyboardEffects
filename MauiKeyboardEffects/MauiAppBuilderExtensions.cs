@@ -10,7 +10,7 @@ public static class MauiAppBuilderExtensions
 #if IOS
                 effects.Add<NumericKeyboardRoutingEffect, iOSNumericKeyboardEffect>();
 #elif ANDROID
-                // effects.Add<NumericKeyboardRoutingEffect, AndroidNumericKeyboardEffect>();
+                effects.Add<NumericKeyboardRoutingEffect, AndroidNumericKeyboardEffect>();
 #endif
             });
 
