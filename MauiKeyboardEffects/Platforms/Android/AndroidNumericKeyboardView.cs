@@ -1,11 +1,17 @@
 using System.Collections.Generic;
 using Android.Content;
+using Android.Content.Res;
 using Android.Graphics;
+using Android.Graphics.Drawables;
 using Android.Views;
 using Android.Widget;
+using Microsoft.Maui;
+using Microsoft.Maui.Controls.PlatformConfiguration;
 using AndroidButton = Android.Widget.Button;
 using AndroidView = Android.Views.View;
+using Application = Microsoft.Maui.Controls.Application;
 using Color = Android.Graphics.Color;
+using Orientation = Android.Widget.Orientation;
 
 namespace MauiKeyboardEffects;
 
@@ -22,6 +28,12 @@ internal sealed class AndroidNumericKeyboardView : LinearLayout
     private readonly List<AndroidButton> _optionalButtons = new();
     private readonly List<AndroidButton> _nextButtons = new();
     private readonly List<AndroidView> _decimalButtons = new();
+    private readonly List<AndroidButton> _allButtons = new();
+    private readonly float _density;
+    private readonly int _keyMargin;
+    private readonly int _keyHeight;
+    private readonly float _cornerRadius;
+    private KeyboardPalette _palette;
 
     private Action? _nextAction;
     private Action? _optionalAction;
@@ -34,14 +46,24 @@ internal sealed class AndroidNumericKeyboardView : LinearLayout
     {
         _editText = editText;
         _isHorizontal = isHorizontal;
+        _density = Resources?.DisplayMetrics?.Density ?? 1f;
+        _keyMargin = (int)(6 * _density);
+        _keyHeight = (int)(54 * _density);
+        _cornerRadius = 8f * _density;
 
         Orientation = Orientation.Vertical;
         LayoutParameters = new LayoutParams(LayoutParams.MatchParent, LayoutParams.WrapContent);
-        SetBackgroundColor(Color.Rgb(245, 245, 245));
-        SetPadding(32, 24, 32, 24);
-        Elevation = 8f;
+        SetPadding((int)(12 * _density), (int)(8 * _density), (int)(12 * _density), (int)(16 * _density));
+        Elevation = 6f;
 
+        if (Application.Current != null)
+        {
+            Application.Current.RequestedThemeChanged += OnRequestedThemeChanged;
+        }
+
+        UpdatePalette();
         BuildLayout();
+        UpdatePalette();
     }
 
     public void UpdateBehavior(bool includeDecimal, bool isNextReturn, Action? nextAction, string? optionalButtonText, Action? optionalButtonAction)
@@ -130,6 +152,7 @@ internal sealed class AndroidNumericKeyboardView : LinearLayout
             row.AddView(CreateDigitButton(value));
         }
 
+        row.AddView(CreateDigitButton(".", trackAsDecimal: true));
         row.AddView(CreateControlButton(DefaultDeleteText, OnDeleteTapped));
         row.AddView(CreateControlButton(DefaultNextText, OnNextTapped));
 
@@ -154,44 +177,96 @@ internal sealed class AndroidNumericKeyboardView : LinearLayout
     {
         var row = new LinearLayout(Context) { Orientation = Orientation.Horizontal };
         row.LayoutParameters = new LayoutParams(LayoutParams.MatchParent, LayoutParams.WrapContent);
-        row.SetPadding(0, 12, 0, 0);
+        row.SetPadding(0, _keyMargin, 0, 0);
 
-        row.AddView(CreateDigitButton(first), CreateWeightLayoutParams(1f));
-        row.AddView(CreateDigitButton(second), CreateWeightLayoutParams(1f));
-        row.AddView(CreateDigitButton(third), CreateWeightLayoutParams(1f));
+        row.AddView(CreateDigitButton(first), CreateKeyLayoutParams());
+        row.AddView(CreateDigitButton(second), CreateKeyLayoutParams());
+        row.AddView(CreateDigitButton(third), CreateKeyLayoutParams());
 
         return row;
     }
 
     private LinearLayout CreateDecimalRow()
     {
-        var row = CreateDigitRow(".", "0", "00");
-        _decimalButtons.Add(row.GetChildAt(0));
-        return row;
+        return CreateDigitRow(".", "0", "00");
     }
 
-    private AndroidButton CreateDigitButton(string display)
+    private AndroidButton CreateDigitButton(string display, bool trackAsDecimal = false)
     {
-        var button = new AndroidButton(Context)
-        {
-            Text = display,
-        };
-
+        var button = CreateKeyButton(display);
         button.Click += (_, _) => InsertValue(display);
         _digitButtons.Add(button);
+
+        if (display == "." || trackAsDecimal)
+        {
+            _decimalButtons.Add(button);
+        }
 
         return button;
     }
 
     private AndroidButton CreateControlButton(string label, EventHandler handler)
     {
+        var button = CreateKeyButton(label);
+        button.Click += handler;
+        return button;
+    }
+
+    private AndroidButton CreateKeyButton(string label)
+    {
         var button = new AndroidButton(Context)
         {
             Text = label,
+            TextSize = 18,
+            Typeface = Typeface.DefaultBold,
         };
 
-        button.Click += handler;
+        button.SetMinimumHeight(_keyHeight);
+        button.SetAllCaps(false);
+        button.StateListAnimator = null;
+        button.SetPadding(0, (int)(4 * _density), 0, (int)(4 * _density));
+        button.LayoutParameters = CreateKeyLayoutParams();
+
+        _allButtons.Add(button);
+        ApplyKeyStyle(button);
+
         return button;
+    }
+
+    private void ApplyKeyStyle(AndroidButton button)
+    {
+        button.Background = CreateKeyBackground();
+        button.SetTextColor(_palette.KeyText);
+    }
+
+    private LinearLayout.LayoutParams CreateKeyLayoutParams()
+    {
+        return new LinearLayout.LayoutParams(0, LayoutParams.WrapContent, 1f)
+        {
+            MarginStart = _keyMargin,
+            MarginEnd = _keyMargin,
+            TopMargin = _keyMargin,
+        };
+    }
+
+    private Drawable CreateKeyBackground()
+    {
+        var rippleColor = Android.Content.Res.ColorStateList.ValueOf(_palette.Ripple);
+
+        var normal = new GradientDrawable();
+        normal.SetColor(_palette.KeyNormal);
+        normal.SetCornerRadius(_cornerRadius);
+        normal.SetStroke((int)Math.Max(1, _density), _palette.KeyBorder);
+
+        var pressed = new GradientDrawable();
+        pressed.SetColor(_palette.KeyPressed);
+        pressed.SetCornerRadius(_cornerRadius);
+
+        var states = new StateListDrawable();
+        states.AddState(new[] { Android.Resource.Attribute.StatePressed }, pressed);
+        states.AddState(new int[] { }, normal);
+
+        return new RippleDrawable(rippleColor, states, null);
     }
 
     private void InsertValue(string value)
@@ -275,5 +350,68 @@ internal sealed class AndroidNumericKeyboardView : LinearLayout
             TopMargin = 6,
             BottomMargin = 6,
         };
+    }
+
+    private struct KeyboardPalette
+    {
+        public Color Backdrop;
+        public Color KeyNormal;
+        public Color KeyPressed;
+        public Color KeyBorder;
+        public Color KeyText;
+        public Color Ripple;
+    }
+
+    private void UpdatePalette()
+    {
+        _palette = GetCurrentPalette();
+        SetBackgroundColor(_palette.Backdrop);
+
+        foreach (var button in _allButtons)
+        {
+            ApplyKeyStyle(button);
+        }
+    }
+
+    private KeyboardPalette GetCurrentPalette()
+    {
+        var appTheme = Application.Current?.RequestedTheme;
+        var uiMode = Context?.Resources?.Configuration?.UiMode ?? UiMode.TypeUndefined;
+        var isDark = appTheme == AppTheme.Dark || (uiMode & UiMode.NightMask) == UiMode.NightYes;
+
+        return isDark
+            ? new KeyboardPalette
+            {
+                Backdrop = Android.Graphics.Color.Rgb(24, 25, 28),
+                KeyNormal = Android.Graphics.Color.Rgb(45, 46, 52),
+                KeyPressed = Android.Graphics.Color.Rgb(58, 59, 66),
+                KeyBorder = Android.Graphics.Color.Argb(80, 0, 0, 0),
+                KeyText = Android.Graphics.Color.Rgb(236, 236, 238),
+                Ripple = Android.Graphics.Color.Argb(90, 255, 255, 255),
+            }
+            : new KeyboardPalette
+            {
+                Backdrop = Android.Graphics.Color.Rgb(223, 225, 229),
+                KeyNormal = Android.Graphics.Color.White,
+                KeyPressed = Android.Graphics.Color.Rgb(225, 226, 230),
+                KeyBorder = Android.Graphics.Color.Argb(64, 0, 0, 0),
+                KeyText = Android.Graphics.Color.Rgb(32, 32, 32),
+                Ripple = Android.Graphics.Color.Argb(80, 0, 0, 0),
+            };
+    }
+
+    private void OnRequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
+    {
+        UpdatePalette();
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing && Application.Current != null)
+        {
+            Application.Current.RequestedThemeChanged -= OnRequestedThemeChanged;
+        }
+
+        base.Dispose(disposing);
     }
 }

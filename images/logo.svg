@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="376px" height="376px" viewBox="0 0 376 376" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>svgviewer-output (1)</title>
+    <defs>
+        <radialGradient cx="50%" cy="50%" fx="50%" fy="50%" r="50%" id="radialGradient-1">
+            <stop stop-color="#0078D4" offset="0%"></stop>
+            <stop stop-color="#8338EC" offset="100%"></stop>
+        </radialGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="svgviewer-output-(1)" transform="translate(3.000000, 3.000000)">
+            <circle id="Oval" fill="url(#radialGradient-1)" fill-rule="nonzero" cx="185" cy="185" r="180"></circle>
+            <circle id="Oval" stroke="#FFFFFF" stroke-width="5" opacity="0.2" cx="185" cy="185" r="185"></circle>
+            <g id="Group" transform="translate(184.686640, 185.435668) rotate(-10.000000) translate(-184.686640, -185.435668) translate(58.208269, 105.800424)" fill-rule="nonzero">
+                <g id="keycap" transform="translate(-0.000000, 0.249963)">
+                    <rect id="Rectangle" fill="#E0E0E0" x="0" y="0" width="56" height="47" rx="4"></rect>
+                    <rect id="Rectangle" fill="#F0F0F0" x="3.73333333" y="3.76" width="48.5333333" height="39.48" rx="2"></rect>
+                </g>
+                <g id="keycap" transform="translate(65.922634, 0.704210)">
+                    <rect id="Rectangle" fill="#E0E0E0" x="0" y="0" width="56" height="47" rx="4"></rect>
+                    <rect id="Rectangle" fill="#F0F0F0" x="3.73333333" y="3.76" width="48.5333333" height="39.48" rx="2"></rect>
+                </g>
+                <g id="keycap" transform="translate(131.034108, -0.000000)">
+                    <rect id="Rectangle" fill="#E0E0E0" x="0" y="0" width="56" height="47" rx="4"></rect>
+                    <rect id="Rectangle" fill="#F0F0F0" x="3.73333333" y="3.76" width="48.5333333" height="39.48" rx="2"></rect>
+                </g>
+                <g id="keycap" transform="translate(196.956742, 0.454246)">
+                    <rect id="Rectangle" fill="#E0E0E0" x="0" y="0" width="56" height="47" rx="4"></rect>
+                    <rect id="Rectangle" fill="#F0F0F0" x="3.73333333" y="3.76" width="48.5333333" height="39.48" rx="2"></rect>
+                </g>
+                <g id="keycap" transform="translate(0.297428, 56.150872)">
+                    <rect id="Rectangle" fill="#E0E0E0" x="0" y="0" width="56" height="47" rx="4"></rect>
+                    <rect id="Rectangle" fill="#F0F0F0" x="3.73333333" y="3.76" width="48.5333333" height="39.48" rx="2"></rect>
+                </g>
+                <g id="keycap" transform="translate(65.235254, 56.431470)">
+                    <rect id="Rectangle" fill="#E0E0E0" x="0" y="0" width="56" height="47" rx="4"></rect>
+                    <rect id="Rectangle" fill="#F0F0F0" x="3.73333333" y="3.76" width="48.5333333" height="39.48" rx="2"></rect>
+                </g>
+                <g id="keycap" transform="translate(131.157888, 56.885716)">
+                    <rect id="Rectangle" fill="#E0E0E0" x="0" y="0" width="56" height="47" rx="4"></rect>
+                    <rect id="Rectangle" fill="#F0F0F0" x="3.73333333" y="3.76" width="48.5333333" height="39.48" rx="2"></rect>
+                </g>
+                <g id="keycap" transform="translate(196.269362, 56.181506)">
+                    <rect id="Rectangle" fill="#E0E0E0" x="0" y="0" width="56" height="47" rx="4"></rect>
+                    <rect id="Rectangle" fill="#F0F0F0" x="3.73333333" y="3.76" width="48.5333333" height="39.48" rx="2"></rect>
+                </g>
+                <g id="Group-2" transform="translate(125.975540, 135.770488) scale(-1, 1) translate(-125.975540, -135.770488) translate(41.975540, 112.270488)">
+                    <rect id="Rectangle" fill="#E0E0E0" x="-2.13264879e-14" y="-2.69972926e-14" width="168" height="47" rx="4"></rect>
+                    <rect id="Rectangle" fill="#F0F0F0" x="3.00759612" y="3.91317591" width="161" height="39" rx="2"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
