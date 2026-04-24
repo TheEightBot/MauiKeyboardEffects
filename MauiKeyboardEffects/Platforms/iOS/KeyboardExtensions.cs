@@ -26,7 +26,7 @@ public static class KeyboardExtensions
                     break;
                 default:
                     var bundle = NSBundle.FromClass(new ObjCRuntime.Class(typeof(NumericKeyboardView)));
-                    keyboardButton.SetTitle(bundle.GetLocalizedString($"NumericKeyboard.return-key.{returnKeyType.ToString().ToLowerInvariant()}"), UIControlState.Normal);
+                    keyboardButton.SetTitle(bundle.GetLocalizedString($"NumericKeyboard.return-key.{returnKeyType.ToString().ToLowerInvariant()}", string.Empty, "MauiKeyboardEffectsLocalizable"), UIControlState.Normal);
                     break;
             }
         }
