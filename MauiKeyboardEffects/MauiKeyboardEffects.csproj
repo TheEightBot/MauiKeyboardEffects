@@ -80,4 +80,62 @@
       </None>
     </ItemGroup>
 
+    <!--
+        Pack the MSBuild targets file and all iOS resources into the NuGet package.
+        NuGet auto-imports build/net9.0-ios/EightBot.MauiKeyboardEffects.targets into
+        consuming projects, which adds the resources as BundleResource items so they
+        are included in the consuming app's iOS bundle.
+    -->
+    <ItemGroup>
+        <None Include="EightBot.MauiKeyboardEffects.targets"
+              Pack="true"
+              PackagePath="build/" />
+
+        <!-- Keyboard images -->
+        <None Include="Platforms/iOS/Resources/KeyboardDismiss.png"
+              Pack="true"
+              PackagePath="build/ios-resources/" />
+        <None Include="Platforms/iOS/Resources/KeyboardDismiss@2x.png"
+              Pack="true"
+              PackagePath="build/ios-resources/" />
+        <None Include="Platforms/iOS/Resources/KeyboardDismiss@3x.png"
+              Pack="true"
+              PackagePath="build/ios-resources/" />
+        <None Include="Platforms/iOS/Resources/KeyboardErase.png"
+              Pack="true"
+              PackagePath="build/ios-resources/" />
+        <None Include="Platforms/iOS/Resources/KeyboardErase@2x.png"
+              Pack="true"
+              PackagePath="build/ios-resources/" />
+        <None Include="Platforms/iOS/Resources/KeyboardErase@3x.png"
+              Pack="true"
+              PackagePath="build/ios-resources/" />
+
+        <!-- Localization strings -->
+        <None Include="Platforms/iOS/Resources/de.lproj/MauiKeyboardEffectsLocalizable.strings"
+              Pack="true"
+              PackagePath="build/ios-resources/de.lproj/" />
+        <None Include="Platforms/iOS/Resources/en.lproj/MauiKeyboardEffectsLocalizable.strings"
+              Pack="true"
+              PackagePath="build/ios-resources/en.lproj/" />
+        <None Include="Platforms/iOS/Resources/es.lproj/MauiKeyboardEffectsLocalizable.strings"
+              Pack="true"
+              PackagePath="build/ios-resources/es.lproj/" />
+        <None Include="Platforms/iOS/Resources/fr.lproj/MauiKeyboardEffectsLocalizable.strings"
+              Pack="true"
+              PackagePath="build/ios-resources/fr.lproj/" />
+        <None Include="Platforms/iOS/Resources/he.lproj/MauiKeyboardEffectsLocalizable.strings"
+              Pack="true"
+              PackagePath="build/ios-resources/he.lproj/" />
+        <None Include="Platforms/iOS/Resources/it.lproj/MauiKeyboardEffectsLocalizable.strings"
+              Pack="true"
+              PackagePath="build/ios-resources/it.lproj/" />
+        <None Include="Platforms/iOS/Resources/nl.lproj/MauiKeyboardEffectsLocalizable.strings"
+              Pack="true"
+              PackagePath="build/ios-resources/nl.lproj/" />
+        <None Include="Platforms/iOS/Resources/sv.lproj/MauiKeyboardEffectsLocalizable.strings"
+              Pack="true"
+              PackagePath="build/ios-resources/sv.lproj/" />
+    </ItemGroup>
+
 </Project>
