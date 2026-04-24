@@ -11,13 +11,13 @@ on:
 jobs:
   build:
 
-    runs-on: macos-14
+    runs-on: macos-15
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-dotnet@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.x'
+        dotnet-version: '10.x'
 
     - uses: maxim-lobanov/setup-xcode@v1
       with:
