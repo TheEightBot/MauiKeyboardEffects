@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <!--
+    This targets file is automatically imported by NuGet into consuming projects.
+    It injects the iOS images and localization strings as BundleResource items so
+    they are copied into the consuming app's bundle at build time.
+  -->
+  <ItemGroup Condition="'$(TargetPlatformIdentifier)' == 'ios' Or '$(TargetPlatformIdentifier)' == 'maccatalyst'">
+
+    <!-- Keyboard images -->
+    <BundleResource Include="$(MSBuildThisFileDirectory)ios-resources/KeyboardDismiss.png">
+      <LogicalName>KeyboardDismiss.png</LogicalName>
+      <Visible>false</Visible>
+    </BundleResource>
+    <BundleResource Include="$(MSBuildThisFileDirectory)ios-resources/KeyboardDismiss@2x.png">
+      <LogicalName>KeyboardDismiss@2x.png</LogicalName>
+      <Visible>false</Visible>
+    </BundleResource>
+    <BundleResource Include="$(MSBuildThisFileDirectory)ios-resources/KeyboardDismiss@3x.png">
+      <LogicalName>KeyboardDismiss@3x.png</LogicalName>
+      <Visible>false</Visible>
+    </BundleResource>
+    <BundleResource Include="$(MSBuildThisFileDirectory)ios-resources/KeyboardErase.png">
+      <LogicalName>KeyboardErase.png</LogicalName>
+      <Visible>false</Visible>
+    </BundleResource>
+    <BundleResource Include="$(MSBuildThisFileDirectory)ios-resources/KeyboardErase@2x.png">
+      <LogicalName>KeyboardErase@2x.png</LogicalName>
+      <Visible>false</Visible>
+    </BundleResource>
+    <BundleResource Include="$(MSBuildThisFileDirectory)ios-resources/KeyboardErase@3x.png">
+      <LogicalName>KeyboardErase@3x.png</LogicalName>
+      <Visible>false</Visible>
+    </BundleResource>
+
+    <!-- Localization strings (unique table name avoids conflicts with consumer's Localizable.strings) -->
+    <BundleResource Include="$(MSBuildThisFileDirectory)ios-resources/de.lproj/MauiKeyboardEffectsLocalizable.strings">
+      <LogicalName>de.lproj/MauiKeyboardEffectsLocalizable.strings</LogicalName>
+      <Visible>false</Visible>
+    </BundleResource>
+    <BundleResource Include="$(MSBuildThisFileDirectory)ios-resources/en.lproj/MauiKeyboardEffectsLocalizable.strings">
+      <LogicalName>en.lproj/MauiKeyboardEffectsLocalizable.strings</LogicalName>
+      <Visible>false</Visible>
+    </BundleResource>
+    <BundleResource Include="$(MSBuildThisFileDirectory)ios-resources/es.lproj/MauiKeyboardEffectsLocalizable.strings">
+      <LogicalName>es.lproj/MauiKeyboardEffectsLocalizable.strings</LogicalName>
+      <Visible>false</Visible>
+    </BundleResource>
+    <BundleResource Include="$(MSBuildThisFileDirectory)ios-resources/fr.lproj/MauiKeyboardEffectsLocalizable.strings">
+      <LogicalName>fr.lproj/MauiKeyboardEffectsLocalizable.strings</LogicalName>
+      <Visible>false</Visible>
+    </BundleResource>
+    <BundleResource Include="$(MSBuildThisFileDirectory)ios-resources/he.lproj/MauiKeyboardEffectsLocalizable.strings">
+      <LogicalName>he.lproj/MauiKeyboardEffectsLocalizable.strings</LogicalName>
+      <Visible>false</Visible>
+    </BundleResource>
+    <BundleResource Include="$(MSBuildThisFileDirectory)ios-resources/it.lproj/MauiKeyboardEffectsLocalizable.strings">
+      <LogicalName>it.lproj/MauiKeyboardEffectsLocalizable.strings</LogicalName>
+      <Visible>false</Visible>
+    </BundleResource>
+    <BundleResource Include="$(MSBuildThisFileDirectory)ios-resources/nl.lproj/MauiKeyboardEffectsLocalizable.strings">
+      <LogicalName>nl.lproj/MauiKeyboardEffectsLocalizable.strings</LogicalName>
+      <Visible>false</Visible>
+    </BundleResource>
+    <BundleResource Include="$(MSBuildThisFileDirectory)ios-resources/sv.lproj/MauiKeyboardEffectsLocalizable.strings">
+      <LogicalName>sv.lproj/MauiKeyboardEffectsLocalizable.strings</LogicalName>
+      <Visible>false</Visible>
+    </BundleResource>
+
+  </ItemGroup>
+</Project>
