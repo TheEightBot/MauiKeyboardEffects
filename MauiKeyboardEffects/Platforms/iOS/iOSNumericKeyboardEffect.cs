@@ -50,12 +50,16 @@ public class iOSNumericKeyboardEffect : PlatformEffect
         {
             if (_keyboardView != null)
             {
+                // Detach before pooling so a reused view can't fire taps into the field it
+                // is leaving (which may be disposed by the time the view is reused).
+                _keyboardView.DetachFromInput();
                 _reusableNumericKeyboardViews.Enqueue(_keyboardView);
                 _keyboardView = null;
             }
 
             if (_horizontalKeyboardView != null)
             {
+                _horizontalKeyboardView.DetachFromInput();
                 _reusableHorizontalKeyboardViews.Enqueue(_horizontalKeyboardView);
                 _horizontalKeyboardView = null;
             }
