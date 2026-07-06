@@ -305,6 +305,15 @@ public sealed class NumericKeyboardView : UIView, IUIInputViewAudioFeedback
                 return;
             }
 
+            // A pooled keyboard view can outlive the field it was set up for: the static
+            // reuse queue reassigns views to new fields without clearing the old field's
+            // InputView, so this view may still receive a tap after its field was disposed.
+            // Bail out rather than dereference a zeroed native handle.
+            if (_textInput is NSObject nativeInput && nativeInput.Handle == IntPtr.Zero)
+            {
+                return;
+            }
+
             var textField = _textInput.IsTextField();
             var textView = _textInput.IsTextView();
 
@@ -335,7 +344,7 @@ public sealed class NumericKeyboardView : UIView, IUIInputViewAudioFeedback
                 case KeyboardButtonType.Default:
                     if (textField.IsTextField)
                     {
-                        if (textField.TextField?.ShouldChangeCharacters(textField.TextField, _textInput.GetSelectedTextRange(), keyboardButton.Value) ?? true)
+                        if (textField.TextField?.ShouldChangeCharacters?.Invoke(textField.TextField, _textInput.GetSelectedTextRange(), keyboardButton.Value) ?? true)
                         {
                             if (keyboardButton.Value != null)
                             {
@@ -455,6 +464,27 @@ public sealed class NumericKeyboardView : UIView, IUIInputViewAudioFeedback
         numericKeyboard.Setup(textInput, keyboardType, returnKeyType, nextButtonAction, optionalButton1Display,
             optionalButton1Action);
         return numericKeyboard;
+    }
+
+    /// <summary>
+    /// Detaches this view from its current text input before it is returned to the shared
+    /// reuse pool: clears the field's InputView (only if it still points at this view) and
+    /// drops the cached input + next-action, so a pooled view can never fire a button tap
+    /// into a stale or disposed field.
+    /// </summary>
+    public void DetachFromInput()
+    {
+        if (_textInput is UITextField textField && textField.Handle != IntPtr.Zero && Equals(textField.InputView, this))
+        {
+            textField.InputView = null;
+        }
+        else if (_textInput is UITextView textView && textView.Handle != IntPtr.Zero && Equals(textView.InputView, this))
+        {
+            textView.InputView = null;
+        }
+
+        _textInput = null;
+        _nextButtonAction = null;
     }
 
     protected override void Dispose(bool disposing)
